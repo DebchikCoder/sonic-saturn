@@ -1,5 +1,6 @@
 #include <srl.hpp>
 #include "Engine/System.hpp"
+#include "Engine/Background.hpp"
 #include "Player.hpp"
 
 // Using to shorten names for Vector and HighColor
@@ -47,6 +48,7 @@ HighColor shadingTable[32] =
 // Main program entry
 int main()
 {
+    //TODO: write seprate game file which handle main loop
     // Initialize library
     Engine::System::initEngine();
     SRL::Debug::Print(1,1, "VDP1 3D Smooth shaded teapot");
@@ -55,9 +57,16 @@ int main()
     std::array<ModelObject*, 2> models;
     models[0] = new ModelObject("SONIC.NYA");
     SRL::Cd::ChangeDir((char*)NULL);
+
+    //temporary code for testing backgrounds loading
+    SRL::Cd::ChangeDir("BG");
+    Engine::BG::loadBG("SKY.TGA");
+    SRL::Cd::ChangeDir((char*)NULL);
     
     Player player = Player(Vector3D(0, 0, 0), 0);
     SRL::Debug::Print(1, 8, "Mesh count: %d", models[0]->GetMeshCount());
+
+    Vector2D BGpos = player.GetBackgroundPos();
 
     // Setup light, we can use scale of the vector to manipulate light intensity
     Vector3D lightDirection = Vector3D(0.4, 0.0, 0.4);
@@ -95,6 +104,9 @@ int main()
             models[player.GetModelID()]->Draw(lightDirection);
         }
         SRL::Scene3D::PopMatrix();
+        BGpos = player.GetBackgroundPos();
+
+        Engine::BG::ScrollBG(BGpos);
         
         // Refresh screen
         SRL::Core::Synchronize();

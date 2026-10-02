@@ -19,6 +19,11 @@ void Player::Update()
       if(m_pad.IsHeld(SRL::Input::Digital::Button::Right))
             m_vel = camera.GetRight() * -SRL::Math::Fxp(3);
       
+      if(m_pad.IsHeld(SRL::Input::Digital::Button::L))
+            m_BGposition.X -= 2.0;
+      if(m_pad.IsHeld(SRL::Input::Digital::Button::R))
+            m_BGposition.X += 2.0;
+      
       m_vel.Normalize();
 
       Translate(m_vel.X, m_vel.Y, m_vel.Z);
@@ -28,4 +33,9 @@ void Player::Update()
 SRL::Math::Vector3D Player::GetCameraPosition()
 {
       return camera.GetPosition();
+}
+
+SRL::Math::Vector2D Player::GetBackgroundPos()
+{
+      return m_BGposition;
 }

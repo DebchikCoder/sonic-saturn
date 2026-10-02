@@ -2,6 +2,7 @@
 #include <srl.hpp>
 
 //main defenition file and system classes and variebles that engine use
+//TODO: write loading class(should handle both file foading and level loading)
 
 namespace Engine
 {

@@ -6,7 +6,7 @@ namespace Engine
       {
             m_position = SRL::Math::Vector3D(SRL::Math::Fxp(0));
             m_radius = radius;
-            m_yaw = yaw;
+            this->yaw = yaw;
             m_height = height;
 
             m_up = SRL::Math::Vector3D(SRL::Math::Vector3D::Up(), 0);
@@ -15,46 +15,37 @@ namespace Engine
       void Camera::Update(SRL::Math::Vector3D& target)
       {
             //update vectors
-            m_foward.X = SRL::Math::Trigonometry::Sin(m_yaw);
+            m_foward.X = SRL::Math::Trigonometry::Sin(yaw);
             m_foward.Y = 0;
-            m_foward.Z = SRL::Math::Trigonometry::Cos(m_yaw);
+            m_foward.Z = SRL::Math::Trigonometry::Cos(yaw);
 
             m_right = m_foward.Cross(m_up);
 
             m_target = target;
 
             m_position.X = m_target.X + m_radius * m_foward.X;
-            m_position.Y = m_target.Y - m_height;
+            m_position.Y = m_target.Y - 16;
             m_position.Z = m_target.Z + m_radius * m_foward.Z;
             SRL::Debug::Print(1, 1, "Cam pos: %f, %f, %f", m_position.X, m_position.Y, m_position.Z);
+            //SRL::Debug::Print(1, 2, "Cam yaw: %f", yaw);
             //SRL::Debug::Print(1, 2, "Cam angles: %f, %f", m_pitch, m_yaw);
       }
 
       void Camera::Update()
       {
             //update vectors
-            m_foward.X = SRL::Math::Trigonometry::Sin(m_yaw);
+            m_foward.X = SRL::Math::Trigonometry::Sin(yaw);
             m_foward.Y = 0;
-            m_foward.Z = SRL::Math::Trigonometry::Cos(m_yaw);
+            m_foward.Z = SRL::Math::Trigonometry::Cos(yaw);
 
             m_right = m_foward.Cross(m_up);
 
             m_target = m_foward;
 
             m_position.X = m_target.X + m_radius * m_foward.X;
-            m_position.Y = m_target.Y - m_height;
+            m_position.Y = m_target.Y - 16;
             m_position.Z = m_target.Z + m_radius * m_foward.Z;
             SRL::Debug::Print(1, 1, "Cam pos: %f, %f, %f", m_position.X, m_position.Y, m_position.Z);
-      }
-
-      void Camera::ChangeYaw(SRL::Math::Angle value)
-      {
-            m_yaw += value;
-      }
-
-      void Camera::SetYaw(SRL::Math::Angle value)
-      {
-            m_yaw = value;
       }
 
       void Camera::LookAt()
@@ -79,8 +70,7 @@ namespace Engine
 
       Camera::~Camera()
       {
-            m_yaw = SRL::Math::Angle::BuildRaw(0);
-            m_pitch = SRL::Math::Angle::BuildRaw(0);
+            yaw = SRL::Math::Angle::BuildRaw(0);
 
             m_foward = m_up = m_foward = SRL::Math::Vector3D::Zero();
             m_radius = 0;

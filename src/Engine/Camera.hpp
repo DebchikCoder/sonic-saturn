@@ -14,10 +14,9 @@ namespace Engine
             //camera vectors, 
             SRL::Math::Vector3D m_foward, m_right, m_up;
 
-            SRL::Math::Angle m_pitch, m_yaw;
-
             int8_t m_height;
       public:
+            SRL::Math::Angle yaw;
 
             /// @brief initialize camera
             /// @param yaw start yaw angle
@@ -32,9 +31,6 @@ namespace Engine
 
             /// @brief update camera without target
             void Update();
-
-            void ChangeYaw(SRL::Math::Angle value);
-            void SetYaw(SRL::Math::Angle value);
 
             void LookAt();
 

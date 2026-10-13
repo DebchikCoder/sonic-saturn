@@ -10,10 +10,11 @@ private:
 
       SRL::Math::Vector2D m_BGposition;
       
-      Engine::Camera camera;
+      Engine::Camera m_camera;
 public:
       Player(SRL::Math::Vector3D startPosition, int8_t padID);
       void Update() override;
+      void CameraLookAt();
       SRL::Math::Vector3D GetCameraPosition();
       SRL::Math::Vector2D GetBackgroundPos(); //i know its dumb way
       ~Player() =default;

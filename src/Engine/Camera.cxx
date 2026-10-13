@@ -2,46 +2,64 @@
 
 namespace Engine
 {
-      Camera::Camera(SRL::Math::Angle pitch, SRL::Math::Angle yaw, SRL::Math::Fxp radius)
+      Camera::Camera(SRL::Math::Angle yaw, SRL::Math::Fxp radius, int8_t height)
       {
             m_position = SRL::Math::Vector3D(SRL::Math::Fxp(0));
             m_radius = radius;
-            m_pitch = pitch;
             m_yaw = yaw;
-
-            //im a bit scared thet vector is uninitialized so i will init it here
-            // m_foward.X = SRL::Math::Trigonometry::Cos(m_angles.pitch) * SRL::Math::Trigonometry::Sin(m_angles.yaw);
-            // m_foward.Y = 0;
-            // m_foward.Z = SRL::Math::Trigonometry::Cos(m_angles.pitch) * SRL::Math::Trigonometry::Cos(m_angles.yaw);
+            m_height = height;
 
             m_up = SRL::Math::Vector3D(SRL::Math::Vector3D::Up(), 0);
-            // m_right = m_foward.Cross(m_up);
-            // m_right.Normalize();
       }
 
-      void Camera::Update(SRL::Input::Digital& pad, SRL::Math::Vector3D& target)
+      void Camera::Update(SRL::Math::Vector3D& target)
       {
-            //first we check if we update camera angles
-            if(pad.IsHeld(SRL::Input::Digital::Button::L))
-                  m_yaw += SRL::Math::Angle::FromDegrees(3);
-            if(pad.IsHeld(SRL::Input::Digital::Button::R))
-                  m_yaw -= SRL::Math::Angle::FromDegrees(3);
-
-            //then update vectors
-            m_foward.X = SRL::Math::Trigonometry::Cos(m_pitch) * SRL::Math::Trigonometry::Sin(m_yaw);
+            //update vectors
+            m_foward.X = SRL::Math::Trigonometry::Sin(m_yaw);
             m_foward.Y = 0;
-            m_foward.Z = SRL::Math::Trigonometry::Cos(m_pitch) * SRL::Math::Trigonometry::Cos(m_yaw);
-            m_foward.Normalize();
+            m_foward.Z = SRL::Math::Trigonometry::Cos(m_yaw);
 
             m_right = m_foward.Cross(m_up);
 
             m_target = target;
 
             m_position.X = m_target.X + m_radius * m_foward.X;
-            m_position.Y = m_target.Y - 10;
+            m_position.Y = m_target.Y - m_height;
             m_position.Z = m_target.Z + m_radius * m_foward.Z;
             SRL::Debug::Print(1, 1, "Cam pos: %f, %f, %f", m_position.X, m_position.Y, m_position.Z);
             //SRL::Debug::Print(1, 2, "Cam angles: %f, %f", m_pitch, m_yaw);
+      }
+
+      void Camera::Update()
+      {
+            //update vectors
+            m_foward.X = SRL::Math::Trigonometry::Sin(m_yaw);
+            m_foward.Y = 0;
+            m_foward.Z = SRL::Math::Trigonometry::Cos(m_yaw);
+
+            m_right = m_foward.Cross(m_up);
+
+            m_target = m_foward;
+
+            m_position.X = m_target.X + m_radius * m_foward.X;
+            m_position.Y = m_target.Y - m_height;
+            m_position.Z = m_target.Z + m_radius * m_foward.Z;
+            SRL::Debug::Print(1, 1, "Cam pos: %f, %f, %f", m_position.X, m_position.Y, m_position.Z);
+      }
+
+      void Camera::ChangeYaw(SRL::Math::Angle value)
+      {
+            m_yaw += value;
+      }
+
+      void Camera::SetYaw(SRL::Math::Angle value)
+      {
+            m_yaw = value;
+      }
+
+      void Camera::LookAt()
+      {
+            SRL::Scene3D::LookAt(m_position, m_target, SRL::Math::Angle::FromDegrees(0));
       }
 
       SRL::Math::Vector3D Camera::GetPosition()

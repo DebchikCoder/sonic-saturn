@@ -95,12 +95,13 @@ int main()
         SRL::Scene3D::LoadIdentity();
 
         // Set camera location and direction
-        SRL::Scene3D::LookAt(player.GetCameraPosition(), player.GetPosition(), 0);
-
+        player.CameraLookAt();
+        
         SRL::Scene3D::PushMatrix();
         {
             // Rotate teapot
             player.Update();
+            SRL::Scene3D::Translate(player.GetPosition());
             models[player.GetModelID()]->Draw(lightDirection);
         }
         SRL::Scene3D::PopMatrix();

@@ -11,6 +11,7 @@ namespace Engine
 
             void loadBG(const char* fileName);
             void ScrollBG(SRL::Math::Vector2D& newPos);
+            void loadRBG(const char* filename);
             
       } // namespace BG
       

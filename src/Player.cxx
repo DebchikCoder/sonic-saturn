@@ -19,16 +19,22 @@ void Player::Update()
             m_vel = m_camera.GetRight() * SRL::Math::Fxp(3);
       
       if(m_pad.IsHeld(SRL::Input::Digital::Button::L))
+      {
             m_BGposition.X -= 2.0;
-            m_camera.ChangeYaw(-3);
+            m_camera.yaw -= SRL::Math::Angle::FromDegrees(3);
+      }
       if(m_pad.IsHeld(SRL::Input::Digital::Button::R))
+      {
             m_BGposition.X += 2.0;
-            m_camera.ChangeYaw(3);
+            m_camera.yaw += SRL::Math::Angle::FromDegrees(3);
+      }
       
       m_vel.Normalize();
 
       m_position -= m_vel;
+      Engine::BG::ScrollBG(m_BGposition);
       m_camera.Update(m_position);
+      SRL::Scene3D::Translate(m_position);
 
       SRL::Debug::Print(1, 3, "Player pos: %f, %f, %f", m_position.X, m_position.Y, m_position.Z);
 }

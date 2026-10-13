@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/Dobject.hpp"
 #include "Engine/Camera.hpp"
+#include "Engine/Background.hpp"
 
 class Player : public Engine::IDynamicObject
 {

@@ -40,7 +40,7 @@ namespace Engine
 
                   SRL::VDP2::RBG0::ScrollDisable();
                   SRL::VDP2::RBG0::LoadTilemap(*tile);
-                  SRL::VDP2::RBG0::SetRotationMode(SRL::VDP2::RotationMode::ThreeAxis);
+                  SRL::VDP2::RBG0::SetRotationMode(SRL::VDP2::RotationMode::TwoAxis);
                   SRL::VDP2::RBG0::ScrollEnable();
 
                   delete bitmap;

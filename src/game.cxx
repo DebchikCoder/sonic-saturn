@@ -3,10 +3,6 @@
 Game::Game() : player(SRL::Math::Vector3D(0, 0, 0), 0)
 {
     Engine::System::initEngine();
-    for(int i = 0; i < 32; i++)
-    {
-        shadingTable[i] = SRL::Types::HighColor::FromRGB555(i, i, i);
-    }
 }
 
 void Game::Start()
@@ -32,20 +28,10 @@ void Game::Start()
     // Set light vector
     SRL::Scene3D::SetDirectionalLight(lightDirection);
 
-    // Initialize shading table and work table
-    uint32_t polygons = models[0]->GetFaceCount();
-    workTable = new SRL::Types::HighColor[polygons << 2];
-    vertWork  = new uint8_t[models[0]->GetVertexCount()];
+    polygons = models[0]->GetFaceCount();
+    vertecies = models[0]->GetVertexCount();
 
-    // Initializes gouraud table work area
-    SRL::Scene3D::LightInitGouraudTable(0, vertWork, workTable, polygons);
-
-    // Sets current light shading table
-    SRL::Scene3D::LightSetGouraudTable(shadingTable);
-
-    // Setups copy event at each vblank
-    SRL::Core::OnVblank += SRL::Scene3D::LightCopyGouraudTable;
-
+    renderer.initGouraud(polygons, vertecies);
 }
 
 void Game::Update()
@@ -53,7 +39,7 @@ void Game::Update()
     SRL::Debug::Print(1, 9, "Beep");
 
     SRL::Debug::Print(1, 10, "Beep");
-        // Load identity matrix
+     // Load identity matrix
     SRL::Scene3D::LoadIdentity();
 
     // Set camera location and direction
@@ -64,7 +50,7 @@ void Game::Update()
     {
         // Rotate teapot
         player.Update();
-        models[player.GetModelID()]->Draw(lightDirection);
+        renderer.drawModel(*models[player.GetModelID()], lightDirection);
         SRL::Debug::Print(1, 12, "Beep2");
     }
     SRL::Scene3D::PopMatrix();

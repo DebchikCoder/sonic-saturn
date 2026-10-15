@@ -2,17 +2,17 @@
 #include "Engine/System.hpp"
 #include "Engine/modelObject.hpp"
 #include "Engine/Background.hpp"
+#include "Engine/Rendering.hpp"
 
 #include "Player.hpp"
 
 class Game
 {
 private:
-    SRL::Types::HighColor shadingTable[32];
+    uint32_t polygons, vertecies;
     SRL::Math::Vector3D lightDirection;
     Player player;
-    SRL::Types::HighColor* workTable = nullptr;
-    uint8_t* vertWork = nullptr;
+    Engine::Rendering renderer;
 
     std::array<ModelObject*, 2> models;
 public:

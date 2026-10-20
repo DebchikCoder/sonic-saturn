@@ -17,6 +17,7 @@ public:
       void Update() override;
       void CameraLookAt();
       SRL::Math::Vector3D GetCameraPosition();
+      SRL::Math::Angle GetCameraAngle();
       SRL::Math::Vector2D GetBackgroundPos(); //i know its dumb way
       ~Player() =default;
 };

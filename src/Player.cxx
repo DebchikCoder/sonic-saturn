@@ -49,6 +49,11 @@ SRL::Math::Vector3D Player::GetCameraPosition()
       return m_camera.GetPosition();
 }
 
+SRL::Math::Angle Player::GetCameraAngle()
+{
+      return m_camera.yaw;
+}
+
 SRL::Math::Vector2D Player::GetBackgroundPos()
 {
       return m_BGposition;

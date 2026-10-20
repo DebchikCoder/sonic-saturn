@@ -18,6 +18,7 @@ void Game::Start()
     //temporary code for testing backgrounds loading
     SRL::Cd::ChangeDir("BG");
     Engine::BG::loadBG("SKY.TGA");
+    Engine::BG::loadRBG("FLOOR.TGA");
     SRL::Cd::ChangeDir((char*)NULL);
     
     SRL::Debug::Print(1, 8, "Mesh count: %d", models[0]->GetMeshCount());
@@ -36,25 +37,23 @@ void Game::Start()
 
 void Game::Update()
 {
-    SRL::Debug::Print(1, 9, "Beep");
-
-    SRL::Debug::Print(1, 10, "Beep");
-     // Load identity matrix
+    // Load identity matrix
     SRL::Scene3D::LoadIdentity();
-
+    
     // Set camera location and direction
     player.CameraLookAt();
-    SRL::Debug::Print(1, 11, "Beep1");
+    
         
     SRL::Scene3D::PushMatrix();
     {
         // Rotate teapot
         player.Update();
         renderer.drawModel(*models[player.GetModelID()], lightDirection);
-        SRL::Debug::Print(1, 12, "Beep2");
     }
     SRL::Scene3D::PopMatrix();
-    SRL::Debug::Print(1, 13, "Beep3");
+
+    SRL::Scene3D::RotateY(SRL::Math::Angle(90.0));
+    SRL::VDP2::RBG0::SetCurrentTransform();
         
     // Refresh screen
     SRL::Core::Synchronize();

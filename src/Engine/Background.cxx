@@ -12,6 +12,7 @@ namespace Engine
 
                   SRL::VDP2::NBG2::ScrollDisable();
                   SRL::VDP2::NBG2::LoadTilemap(*tile);
+                  SRL::VDP2::NBG0::SetPriority(SRL::VDP2::Priority::Layer0);
                   SRL::VDP2::NBG2::ScrollEnable();
 
                   delete bitmap;
@@ -39,8 +40,8 @@ namespace Engine
                   }
 
                   SRL::VDP2::RBG0::ScrollDisable();
-                  SRL::VDP2::RBG0::LoadTilemap(*tile);
-                  SRL::VDP2::RBG0::SetRotationMode(SRL::VDP2::RotationMode::TwoAxis);
+                  SRL::VDP2::RBG0::LoadTilemap(*tile, SRL::VDP2::RotationMode::ThreeAxis);
+                  SRL::VDP2::RBG0::SetPriority(SRL::VDP2::Priority::Layer1);
                   SRL::VDP2::RBG0::ScrollEnable();
 
                   delete bitmap;
